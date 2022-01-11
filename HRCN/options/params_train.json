@@ -1,0 +1,62 @@
+{
+  "base_setting": {
+    "net_name": "srresnet", //asenet, srresnet
+    "phase": "train",
+    "cuda": true,
+    "use_logger": true,
+    "resume_train": false,
+    "root_path": "G:\\", // For making direction for experiments which will contain intermediate results.
+    "scale":2,
+    "epochs": 50, // total_epochs = epochs * k_fold_num
+    "learning_rate": 1e-5,//1e-6
+    "num_threads": 0,
+    "frequency_train_discriminator": 2,
+    "validation_frequency": 1,//5
+    "max_iteration_per_epoch": 256,
+    "gpu_ids": [
+      0
+    ]
+  },
+  "datasets": {
+    "k_fold": true,// if k_fold is true, program divide train_dataset and validation_dataset automatically
+    "k_fold_num": 5,
+    "train": {
+      "dataset_mode": "HR_dataset",//HR or LR_HR
+      "dir_HR": "G:\\dataset_copy\\train\\RealTrain",//"G:/dataset_copy/train/train_COCO",//
+      "dir_LR": "",
+      "dir_realLR": "G:/dataset_copy/train_D",
+      "dir_testLR": "G:\\dataset_copy\\test\\from_simulation",
+      "grayscale": true,
+      "batch_size": 4,
+      "size_HR": 384,
+      "crop_HR": 128,
+      "preprocess_train": "scale_width_and_crop", //"resize_and_crop",
+      "preprocess_validation": "scale_width_and_crop",      "preprocess_test": "none",
+      "preprocess_discriminator_train": "none",
+      "no_flip": false
+    },
+    "validation": {
+      "mode": "HR",
+      "dir_HR": "",
+      "dir_LR": ""
+    }
+  },
+  "net_setting":{
+    "norm": null,
+    "act": "relu",//relu
+    "nz": 8,
+    "in_channels": 1,// if in_channels == 1 then grayscale==true
+    "out_channels": 1,
+    "mid_channels": 128,
+    "num_resblock": 50,//15,50
+    "loss_weight_2x": [0.01, 5, 0.6, 1, 1e-5],//[G, mse, perceptual, l1, regularization_loss]
+    "loss_weight_3x": [0.01, 2, 1, 0.5, 2e-5],
+    "loss_weight_4x": [0.01, 1, 2, 0.1, 5e-5],
+    "regularization_p": 2, //p=0 means no regularization; p=1, L1; p=2, L2
+    "feature_net_use_norm": true, // if this item is true, vgg19_bn is used to replace vgg19
+    "feature_net_input_norm": false // if this is true, x = (x - torch.mean(x))/ torch.std(x)
+  },
+  "experiment": {
+
+  }
+}
