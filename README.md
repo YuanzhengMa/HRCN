@@ -1,4 +1,4 @@
-# HRCN
+# HRCNN
 This is the codes for Cascade neural network approximating for few-shot super-resolution photoacoustic angiography.
 ## Uploading
 January 21th, 2021
